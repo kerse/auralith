@@ -35,10 +35,27 @@ input, select { color: var(--ink); background: #fffdf6; border: 1px solid var(--
 .error { color: #9b2f20; }
 .source-row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 .source-row p { overflow-wrap: anywhere; flex: 1; min-width: 220px; }
+.source-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .file-button { position: relative; background: var(--green); color: white; padding: 11px 18px; border-radius: 3px; font-size: 16px; cursor: pointer; }
 .file-button input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
 .file-button:focus-within { outline: 3px solid var(--orange); outline-offset: 3px; }
 .file-button:has(input:disabled) { opacity: .5; }
+.record-button::before { content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 9px; border-radius: 50%; background: var(--orange); }
+.recorder-panel { margin-top: 18px; padding: 14px; border: 1px solid var(--line); background: #f1efe4; }
+.recorder-heading, .recorder-readout, .recorder-heading > span, .level-field, .recorder-actions { display: flex; align-items: center; gap: 12px; }
+.recorder-heading { justify-content: space-between; margin-bottom: 10px; font: 13px Consolas, monospace; letter-spacing: .05em; text-transform: uppercase; }
+.record-lamp { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 0 #aa462666; animation: record-pulse 1.7s ease-out infinite; }
+#record-time, #record-db, #record-state { font: 13px Consolas, monospace; }
+#recorder-canvas { cursor: default; }
+.recorder-readout { margin-top: 12px; flex-wrap: wrap; }
+.level-field { flex: 1; min-width: 280px; color: var(--muted); font-size: 13px; }
+.level-field progress { flex: 1; min-width: 90px; margin: 0; }
+#record-state { min-width: 92px; color: var(--muted); }
+#record-state[data-state="voice"] { color: var(--green); }
+#record-state[data-state="clipping"] { color: var(--orange); font-weight: 700; }
+.recorder-actions { margin-left: auto; }
+#record-stop { background: var(--orange); border-color: var(--orange); }
+@keyframes record-pulse { 70%, 100% { box-shadow: 0 0 0 8px #aa462600; } }
 .view-toolbar, .selection-row { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin: 18px 0 12px; font-size: 14px; }
 .view-toolbar > span { margin-right: auto; font-weight: 600; }
 .view-toolbar label { display: flex; gap: 8px; align-items: center; }
@@ -97,4 +114,4 @@ progress { width: 100%; height: 12px; accent-color: var(--green); display: block
   .section-heading { flex-wrap: wrap; gap: 10px; }
 }
 @media(max-width: 1050px) { main { padding: 24px; } .privacy { max-width: 560px; } }
-@media(max-width: 720px) { .lower-grid { grid-template-columns: 1fr; gap: 0; } .masthead, .section-heading, footer { flex-wrap: wrap; } main { padding: 16px; } h1 { font-size: 40px; } }
+@media(max-width: 720px) { .lower-grid { grid-template-columns: 1fr; gap: 0; } .masthead, .section-heading, footer { flex-wrap: wrap; } main { padding: 16px; } h1 { font-size: 40px; } .recorder-readout { align-items: stretch; } .level-field { min-width: 100%; } .recorder-actions { margin-left: 0; } }
