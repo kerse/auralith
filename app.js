@@ -1,4 +1,3 @@
-import { setStatusKey } from './src/ui/status.js';
 import { mountSource } from './src/ui/source.js';
 import { Waveform } from './src/visualization/waveform.js';
 import { loadSpectrogram } from './src/visualization/spectrogram.js';
@@ -24,5 +23,4 @@ mountSource(async loaded => { await waveform.load(loaded); source = loaded; awai
 });
 document.querySelector('#selection-controls').addEventListener('input', () => results.invalidate());
 
-setStatusKey('status.ready');
 document.documentElement.dataset.appReady = 'true';

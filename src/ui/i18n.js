@@ -5,34 +5,34 @@ const translations = {
     'language.name': 'русский', 'language.switch': 'Сменить язык', 'language.code': 'RU',
     'section.source': 'Источник', 'section.transform': 'Трансформация', 'section.result': 'Прослушивание и экспорт',
     'empty.title': 'Каждый звук — целый мир.', 'empty.description': 'Выберите запись, чтобы увидеть её и выделить фрагмент.',
-    'processing.summary': 'Растяжение времени · Высота тона · Reverse',
+    'processing.summary': 'Растяжение времени · Высота тона · Разворот',
     'result.initial': 'Выберите звук, чтобы начать исследование.',
     'footer.microscope': 'МИКРОСКОП ВРЕМЕНИ', 'footer.local': 'LOCAL / WAV', 'footer.copyright': '© 2026 Кирилл Томилов',
     'status.starting': 'Запуск…', 'status.ready': 'Готово к работе', 'status.decoding': 'Декодирование аудио…', 'status.loaded': 'Источник загружен',
-    'source.choose': 'Выбрать аудиофайл', 'source.limit': 'До 256 МБ · mono / stereo', 'source.decoding': 'Декодирование: {{name}}…',
-    'source.mono': 'Mono · 1 канал', 'source.stereo': 'Stereo · 2 канала',
+    'source.choose': 'Выбрать аудиофайл', 'source.limit': 'До 256 МБ · моно / стерео', 'source.decoding': 'Декодирование: {{name}}…',
+    'source.mono': 'Моно · 1 канал', 'source.stereo': 'Стерео · 2 канала',
     'wave.form': 'Форма волны', 'wave.zoom': 'Масштаб', 'wave.scroll': 'Прокрутка', 'wave.aria': 'Форма волны. Для точного выделения используйте поля начала и конца ниже.',
     'wave.hint': 'Тяните границы или выделение целиком. Щёлкните и потяните вне выделения, чтобы выбрать новый фрагмент.',
     'wave.start': 'Начало', 'wave.end': 'Конец', 'wave.min': 'мин', 'wave.sec': 'сек', 'wave.ms': 'мс', 'wave.sourcePlay': '▶ Исходный фрагмент', 'wave.sourceStop': '■ Остановить исходник',
     'wave.fragment': 'Фрагмент: {{value}} с', 'wave.fragmentMs': 'Фрагмент: {{value}} мс · {{samples}} отсч.', 'wave.fragmentMsOne': 'Фрагмент: {{value}} мс · {{samples}} отсч.', 'wave.mono': 'MONO',
     'spectrogram.calculating': 'Расчёт спектрограммы…', 'spectrogram.title': 'Спектрограмма · логарифмическая шкала', 'spectrogram.aria': 'Спектрограмма с общим выделением; точное время задаётся полями ниже.',
     'spectrogram.hint': 'FFT 2048 · {{width}} временных срезов', 'spectrogram.overview': ' · обзор с пониженной детализацией, короткие события могут быть пропущены',
-    'processing.duration': 'Длительность результата, с', 'processing.stretch': 'Растяжение, ×', 'processing.pitch': 'Pitch, semitones', 'processing.reverse': 'Reverse источника',
+    'processing.duration': 'Длительность результата, с', 'processing.stretch': 'Растяжение, ×', 'processing.pitch': 'Высота тона, полутоны', 'processing.reverse': 'Развернуть источник',
     'processing.note.initial': 'Загрузите звук. Pitch не зависит от длительности.', 'processing.note.base': 'Лимит — 1 час. Pitch независим от времени.',
     'processing.note.long': 'Длинный результат: экспорт может занять несколько минут. ', 'processing.note.reverse': 'Reverse включён: источник разворачивается перед растяжением. ',
     'processing.error.longSelection': 'Выделение длиннее 1 часа. Сократите его до 3600 секунд или меньше на графике либо в полях начала и конца.',
     'processing.error.fix': 'Исправьте параметры и время выделения.', 'processing.error.agreement': 'Длительность и stretch должны быть согласованы.',
-    'result.preview': 'Preview', 'result.export': 'Export WAV', 'result.cancel': 'Отменить', 'result.progress': 'Обработка', 'result.note.changed': 'Параметры изменены. Нажмите Preview для нового прослушивания.',
-    'result.note.previewShort': 'Черновой Preview · FFT 2048. Экспорт будет рассчитан отдельно с полным качеством.', 'result.note.previewLong': 'Черновой Preview: первые 20 секунд результата. Экспорт рассчитает всю длительность с полным качеством.',
-    'result.play': '▶ Play', 'result.pause': 'Ⅱ Pause', 'result.stop': '■ Stop', 'result.loop': 'Loop',
-    'status.previewPreparing': 'Подготовка preview…', 'status.previewReady': 'Preview готов', 'status.cancelled': 'Обработка отменена', 'status.exportCancelled': 'Экспорт отменён',
+    'result.preview': 'Предпросмотр', 'result.export': 'Экспорт WAV', 'result.cancel': 'Отменить', 'result.progress': 'Обработка', 'result.note.changed': 'Параметры изменены. Нажмите «Предпросмотр» для нового прослушивания.',
+    'result.note.previewShort': 'Черновое прослушивание · FFT 2048. Экспорт будет рассчитан отдельно с полным качеством.', 'result.note.previewLong': 'Черновое прослушивание: первые 20 секунд результата. Экспорт рассчитает всю длительность с полным качеством.',
+    'result.play': '▶ Пуск', 'result.pause': 'Ⅱ Пауза', 'result.stop': '■ Стоп', 'result.loop': 'Зациклить',
+    'status.previewPreparing': 'Подготовка предпросмотра…', 'status.previewReady': 'Предпросмотр готов', 'status.cancelled': 'Обработка отменена', 'status.exportCancelled': 'Экспорт отменён',
     'export.choose': 'Выбор файла…', 'export.processing': 'Экспорт: обработка аудио…', 'export.saving': 'Сохранение WAV…', 'export.download': 'Скачивание начато: {{name}} · {{size}} МБ', 'export.saved': 'WAV сохранён: {{name}} · {{size}} МБ',
     'error.empty': 'Файл пуст. Выберите аудиозапись.', 'error.tooLarge': 'Файл больше 256 МБ. Выберите более короткую запись.', 'error.format': 'Поддерживаются WAV, MP3, OGG и M4A.', 'error.decode': 'Не удалось декодировать файл. Он повреждён или его кодек не поддерживается браузером. Попробуйте WAV.',
     'error.sampleRate': 'Поддерживается sample rate от 8000 до 192000 Hz.', 'error.waveform': 'Не удалось построить waveform.', 'error.spectrogram': 'Не удалось рассчитать спектрограмму. Waveform остаётся доступным.',
     'error.selection': 'Начало должно быть раньше конца, а диапазон — внутри файла. На графике сохранено последнее корректное выделение.', 'error.selectionPlay': 'Исправьте время выделения перед прослушиванием.', 'error.noSource': 'Загрузите звук.',
     'error.workerPreview': 'Ошибка worker. Возможно, недостаточно памяти. Попробуйте меньший фрагмент.', 'error.workerExport': 'Ошибка экспортного worker. Возможно, недостаточно памяти.', 'error.export': 'Не удалось экспортировать WAV: {{message}}. Проверьте свободное место и попробуйте меньшую длительность.',
     'error.exportLimit': 'Для WAV больше 128 МБ нужен браузер с сохранением напрямую на диск (Chrome/Edge). Уменьшите длительность или откройте приложение в поддерживаемом браузере.', 'error.exportSize': 'Размер WAV не совпал с ожидаемым. Экспорт прерван.', 'error.playback': 'Не удалось воспроизвести: {{message}}',
-    'error.sourceInvalid': 'Нужен непустой mono или stereo источник.', 'error.bounds': 'Некорректные границы фрагмента.', 'error.samples': 'Выделите хотя бы один отсчёт.', 'error.parameters': 'Некорректное выделение.', 'error.duration': 'Результат должен быть не короче фрагмента и не длиннее 3600 секунд.', 'error.pitch': 'Pitch должен быть от −24 до +24 semitones.'
+    'error.sourceInvalid': 'Нужен непустой моно- или стереоисточник.', 'error.bounds': 'Некорректные границы фрагмента.', 'error.samples': 'Выделите хотя бы один отсчёт.', 'error.parameters': 'Некорректное выделение.', 'error.duration': 'Результат должен быть не короче фрагмента и не длиннее 3600 секунд.', 'error.pitch': 'Высота тона должна быть от −24 до +24 полутонов.'
   },
   en: {
     'meta.title': 'Auralith — time microscope', privacy: 'Runs in your browser · audio stays on your device · we receive nothing · all processing is local', 'language.name': 'English', 'language.switch': 'Change language', 'language.code': 'EN',
@@ -56,6 +56,15 @@ const translations = {
   }
 };
 
+Object.assign(translations.ru, {
+  'source.limit': 'До 256 МБ · моно / стерео', 'source.mono': 'Моно · 1 канал', 'source.stereo': 'Стерео · 2 канала',
+  'processing.summary': 'Растяжение времени · Высота тона · Разворот', 'processing.pitch': 'Высота тона, полутоны', 'processing.reverse': 'Развернуть источник',
+  'processing.note.initial': 'Загрузите звук. Высота тона не зависит от длительности.', 'processing.note.base': 'Лимит — 1 час. Высота тона не зависит от времени.', 'processing.note.reverse': 'Разворот включён: источник разворачивается перед растяжением. ',
+  'result.preview': 'Предпросмотр', 'result.export': 'Экспорт WAV', 'result.note.changed': 'Параметры изменены. Нажмите «Предпросмотр» для нового прослушивания.', 'result.note.previewShort': 'Черновое прослушивание · FFT 2048. Экспорт будет рассчитан отдельно с полным качеством.', 'result.note.previewLong': 'Черновое прослушивание: первые 20 секунд результата. Экспорт рассчитает всю длительность с полным качеством.', 'result.play': '▶ Пуск', 'result.pause': 'Ⅱ Пауза', 'result.stop': '■ Стоп', 'result.loop': 'Зациклить',
+  'status.previewPreparing': 'Подготовка предпросмотра…', 'status.previewReady': 'Предпросмотр готов',
+  'error.sampleRate': 'Поддерживается частота дискретизации от 8000 до 192000 Гц.', 'error.waveform': 'Не удалось построить форму волны.', 'error.spectrogram': 'Не удалось рассчитать спектрограмму. Форма волны остаётся доступной.', 'error.workerPreview': 'Ошибка фоновой обработки. Возможно, недостаточно памяти. Попробуйте меньший фрагмент.', 'error.workerExport': 'Ошибка фоновой обработки экспорта. Возможно, недостаточно памяти.', 'error.sourceInvalid': 'Нужен непустой моно- или стереоисточник.', 'error.pitch': 'Высота тона должна быть от −24 до +24 полутонов.', 'wave.mono': 'МОНО'
+});
+
 let locale = 'en';
 const languageOrder = ['en', 'sr', 'ru'];
 
@@ -65,6 +74,7 @@ export function t(key, values = {}) {
 }
 
 export function translateError(message) {
+  if (message === 'Нужен непустой mono или stereo источник.') return t('error.sourceInvalid');
   const exact = {
     'Файл пуст. Выберите аудиозапись.': 'error.empty', 'Файл больше 256 МБ. Выберите более короткую запись.': 'error.tooLarge', 'Поддерживаются WAV, MP3, OGG и M4A.': 'error.format', 'Поддерживается sample rate от 8000 до 192000 Hz.': 'error.sampleRate', 'Не удалось построить waveform.': 'error.waveform', 'Не удалось рассчитать спектрограмму. Waveform остаётся доступным.': 'error.spectrogram', 'Некорректные границы фрагмента.': 'error.bounds', 'Выделите хотя бы один отсчёт.': 'error.samples', 'Некорректное выделение.': 'error.parameters', 'Результат должен быть не короче фрагмента и не длиннее 3600 секунд.': 'error.duration', 'Pitch должен быть от −24 до +24 semitones.': 'error.pitch'
   };
