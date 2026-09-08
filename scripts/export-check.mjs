@@ -8,7 +8,7 @@ for (const channel of ['chrome', 'msedge']) {
     // Exercise the real FileSystemWritableFileStream via OPFS, replacing only the OS picker.
     await page.addInitScript(() => { window.showSaveFilePicker = async () => (await navigator.storage.getDirectory()).getFileHandle('export-test.wav', { create: true }); });
     await page.goto('http://127.0.0.1:4173'); await page.locator('#audio-file').setInputFiles('tmp/fixtures/stereo.wav'); await page.waitForFunction(() => !document.querySelector('#audio-file').disabled);
-    await page.locator('#target-duration').fill('10'); await page.locator('#export-wav').click(); await page.waitForFunction(() => document.querySelector('#status').textContent.startsWith('WAV сохранён'));
+    await page.locator('#target-duration').fill('10'); await page.locator('#export-wav').click(); await page.waitForFunction(() => document.querySelector('#status').textContent.startsWith('WAV saved'));
     const inspect = () => page.evaluate(async () => {
       const root = await navigator.storage.getDirectory(), file = await (await root.getFileHandle('export-test.wav')).getFile(), bytes = await file.arrayBuffer(), view = new DataView(bytes);
       const ctx = new AudioContext(), decoded = await ctx.decodeAudioData(bytes.slice(0)); let peak = 0; for (const c of [decoded.getChannelData(0), decoded.getChannelData(1)]) for (const value of c) peak = Math.max(peak, Math.abs(value)); await ctx.close();
@@ -17,12 +17,12 @@ for (const channel of ['chrome', 'msedge']) {
     const first = await inspect(); assert.equal(first.bytes, 1920044); assert.equal(first.channels, 2); assert.equal(first.bits, 16); assert.equal(first.duration, 10); assert.ok(first.peak <= .921 && first.peak > .1);
     await page.locator('#export-wav').click(); await page.waitForFunction(() => !document.querySelector('#export-wav').disabled); assert.equal((await inspect()).hash, first.hash);
     await page.locator('#target-duration').fill('100'); await page.locator('#export-wav').click(); await page.locator('#cancel-render').click(); await page.waitForFunction(() => !document.querySelector('#export-wav').disabled);
-    assert.equal(await page.locator('#status').textContent(), 'Экспорт отменён'); assert.equal((await inspect()).hash, first.hash);
+    assert.equal(await page.locator('#status').textContent(), 'Export cancelled'); assert.equal((await inspect()).hash, first.hash);
     await page.evaluate(() => { window.showSaveFilePicker = undefined; }); await page.locator('#target-duration').fill('10');
     const pending = page.waitForEvent('download'); await page.locator('#export-wav').click(); const download = await pending; await download.saveAs(`test-results/export-${channel}.wav`);
     const wav = await readFile(`test-results/export-${channel}.wav`); assert.equal(wav.length, 1920044); assert.equal(download.suggestedFilename(), 'stereo_auralith.wav');
     await page.waitForFunction(() => !document.querySelector('#export-wav').disabled);
-    await page.locator('#target-duration').fill('3600'); await page.locator('#export-wav').click(); assert.ok((await page.locator('#status').textContent()).includes('128 МБ'));
+    await page.locator('#target-duration').fill('3600'); await page.locator('#export-wav').click(); assert.ok((await page.locator('#status').textContent()).includes('128 MB'));
     await page.evaluate(async () => (await navigator.storage.getDirectory()).removeEntry('export-test.wav'));
     assert.deepEqual(errors, []); console.log(channel, 'streamed WAV, repeatability, cancel preserves old file, download and limit passed', first);
   } finally { await browser.close(); }

@@ -13,7 +13,7 @@ try {
     await page.waitForTimeout(10000); const progress = await page.locator('#progress-label').textContent();
     if (progress !== previous) console.log(progress); previous = progress;
   }
-  assert.ok((await page.locator('#status').textContent()).startsWith('WAV сохранён'));
+  assert.ok((await page.locator('#status').textContent()).startsWith('WAV saved'));
   const report = await page.evaluate(async () => {
     const root = await navigator.storage.getDirectory(), file = await (await root.getFileHandle('hour-export.wav')).getFile();
     const header = new DataView(await file.slice(0, 44).arrayBuffer());

@@ -45,7 +45,8 @@ export class Waveform {
       document.querySelector(`#${bound}-ms`).value = (micros % 1000000) / 1000;
     }
     const duration = this.end - this.start;
-    document.querySelector('#selection-length').textContent = duration < .001 ? t('wave.fragmentMs', { value: (duration * 1000).toFixed(3), samples: Math.max(1, Math.round(duration * this.source.sampleRate)) }) : t('wave.fragment', { value: duration.toFixed(3) });
+    const samples = Math.max(1, Math.round(duration * this.source.sampleRate));
+    document.querySelector('#selection-length').textContent = duration < .001 ? t(samples === 1 ? 'wave.fragmentMsOne' : 'wave.fragmentMs', { value: (duration * 1000).toFixed(3), samples }) : t('wave.fragment', { value: duration.toFixed(3) });
   }
   readFields() {
     const error = document.querySelector('#selection-error');

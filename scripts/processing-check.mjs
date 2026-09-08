@@ -7,7 +7,7 @@ for (const channel of ['chrome', 'msedge']) {
     await page.locator('#stretch').fill('500'); assert.equal(await page.locator('#target-duration').inputValue(), '500');
     await page.locator('#target-duration').fill('30'); assert.equal(await page.locator('#stretch').inputValue(), '30');
     await page.locator('#pitch-shift').fill('-12'); assert.equal(await page.locator('#target-duration').inputValue(), '30');
-    await page.locator('#reverse-source').check(); assert.ok((await page.locator('#parameter-note').textContent()).includes('Reverse включён'));
+    await page.locator('#reverse-source').check(); assert.ok((await page.locator('#parameter-note').textContent()).includes('Reverse enabled'));
     await page.locator('#start-ms').fill('500'); await page.locator('#start-ms').press('Tab'); assert.equal(await page.locator('#target-duration').inputValue(), '15');
     await page.locator('#target-duration').fill('3601'); assert.equal(await page.locator('#parameter-error').isVisible(), true);
     await page.locator('#target-duration').fill('3600'); assert.equal(await page.locator('#stretch').inputValue(), '7200'); assert.equal(await page.locator('#parameter-error').isVisible(), false);
@@ -21,7 +21,7 @@ for (const channel of ['chrome', 'msedge']) {
       controls.setSelection({ start: 0, end: 1 });
       return { rejects, disabled, message, agrees, recovered: controls.getParameters().duration === 1 };
     });
-    assert.ok(longRange.rejects && longRange.disabled && longRange.agrees && longRange.recovered && longRange.message.includes('Сократите'));
+    assert.ok(longRange.rejects && longRange.disabled && longRange.agrees && longRange.recovered && longRange.message.includes('Shorten'));
     console.log(channel, 'bidirectional duration/stretch, pitch, reverse and bounds passed');
   } finally { await browser.close(); }
 }

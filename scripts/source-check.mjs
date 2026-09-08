@@ -9,7 +9,7 @@ for (const channel of ['chrome', 'msedge']) {
       await page.locator('#audio-file').setInputFiles(`tmp/fixtures/stereo.${extension}`);
       await page.waitForFunction(() => !document.querySelector('#audio-file').disabled);
       assert.equal(await page.locator('#load-error').isVisible(), false);
-      const info = await page.locator('#file-info').textContent(); assert.ok(info.includes(`stereo.${extension}`) && info.includes('2 канала')); console.log(channel, info);
+      const info = await page.locator('#file-info').textContent(); assert.ok(info.includes(`stereo.${extension}`) && info.includes('2 channels')); console.log(channel, info);
     }
     await page.locator('#audio-file').setInputFiles({ name: 'corrupt.wav', mimeType: 'audio/wav', buffer: Buffer.from('broken audio') });
     await page.waitForFunction(() => !document.querySelector('#audio-file').disabled);
@@ -17,6 +17,6 @@ for (const channel of ['chrome', 'msedge']) {
     assert.ok((await page.locator('#file-info').textContent()).includes('stereo.m4a'));
     await page.locator('#audio-file').setInputFiles('tmp/fixtures/tone.wav');
     await page.waitForFunction(() => !document.querySelector('#audio-file').disabled);
-    assert.ok((await page.locator('#file-info').textContent()).includes('1 канал')); assert.deepEqual(errors, []);
+    assert.ok((await page.locator('#file-info').textContent()).includes('1 channel')); assert.deepEqual(errors, []);
   } finally { await browser.close(); }
 }
