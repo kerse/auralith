@@ -1,43 +1,49 @@
 # Auralith
 
-Локальный браузерный инструмент для превращения коротких звуковых фрагментов в длинные спектральные текстуры.
+A local, browser-based tool for turning short audio fragments into long spectral textures.
 
 ![Auralith](https://img.shields.io/badge/audio-local%20processing-28584c)
 
-## Возможности
+## Features
 
-- загрузка WAV, MP3, OGG и M4A;
-- выделение фрагмента по waveform и спектрограмме;
-- time-stretch, независимый pitch shift и reverse;
-- черновое прослушивание и экспорт результата в WAV;
-- вся обработка выполняется в браузере — исходное аудио не загружается на сервер.
+- WAV, MP3, OGG, and M4A input;
+- waveform and spectrogram selection;
+- time stretch, independent pitch shift, and reverse;
+- draft preview and WAV export;
+- all processing runs in the browser — audio stays on the user's device and is never uploaded.
 
-## Открыть приложение
+## Live app
 
-После публикации через GitHub Pages сайт доступен по адресу:
+Open [Auralith on GitHub Pages](https://kerse.github.io/auralith/).
 
-`https://kerse.github.io/auralith/`
+## Local development
 
-## Локальный запуск
-
-Нужен Node.js 22+.
+Requires Node.js 22 or newer.
 
 ```sh
 npm install
 npm run dev
 ```
 
-Откройте `http://127.0.0.1:4173`.
+Then open `http://127.0.0.1:4173`.
 
-## Проверки
+## Tests
 
 ```sh
 npm test
 npm run test:browser
 ```
 
-Для браузерных тестов нужны Chrome или Edge. Тестовые аудиофайлы создаются локально и не входят в репозиторий.
+Browser checks require Chrome or Edge. Test audio is generated locally and is not committed to the repository.
 
-## Технологии
+## Technology
 
-Vanilla HTML, CSS и JavaScript, Web Audio API и Web Workers. Для FFT и детерминированного генератора случайных чисел используется код из `@arraypress/paulstretch` (MIT); его лицензия сохранена в `vendor/package/LICENSE`.
+Vanilla HTML, CSS, and JavaScript with the Web Audio API and Web Workers. FFT and deterministic random utilities are vendored from `@arraypress/paulstretch` under the MIT license; the dependency license is included in `vendor/package/LICENSE`.
+
+## Copyright
+
+© 2026 Kirill Tomilov
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).

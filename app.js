@@ -1,13 +1,15 @@
-import { setStatus } from './src/ui/status.js';
+import { setStatusKey } from './src/ui/status.js';
 import { mountSource } from './src/ui/source.js';
 import { Waveform } from './src/visualization/waveform.js';
 import { loadSpectrogram } from './src/visualization/spectrogram.js';
 import { ProcessingControls } from './src/ui/processing.js';
 import { ResultControls } from './src/ui/results.js';
 import { ExportControls } from './src/ui/export.js';
+import { initI18n, t } from './src/ui/i18n.js';
 
 let source = null;
 let results;
+initI18n();
 const processing = new ProcessingControls(() => results?.invalidate());
 const waveform = new Waveform(selection => processing.setSelection(selection));
 function setBusy(busy) {
@@ -22,5 +24,5 @@ mountSource(async loaded => { await waveform.load(loaded); source = loaded; awai
 });
 document.querySelector('#selection-controls').addEventListener('input', () => results.invalidate());
 
-setStatus('Готово к работе');
+setStatusKey('status.ready');
 document.documentElement.dataset.appReady = 'true';
