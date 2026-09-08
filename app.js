@@ -14,12 +14,12 @@ const waveform = new Waveform(selection => processing.setSelection(selection));
 function setBusy(busy) {
   waveform.locked = busy; processing.locked = busy;
   processing.fields.disabled = busy || !source || (waveform.end - waveform.start > 3600);
-  document.querySelectorAll('#selection-controls input, #source-play, #audio-file').forEach(input => { input.disabled = busy; });
+  document.querySelectorAll('#selection-controls input, #source-play, #result-play, #audio-file').forEach(input => { input.disabled = busy; });
 }
-results = new ResultControls({ getSource: () => source, getParameters: () => processing.getParameters(), setBusy, stopSource: () => waveform.stop() });
+results = new ResultControls({ getSource: () => source, getParameters: () => processing.getParameters(), setBusy, waveform });
 new ExportControls(results);
-mountSource(async loaded => { await waveform.load(loaded); source = loaded; await loadSpectrogram(waveform, loaded); }, loading => {
-  results.loading = loading; if (loading) { results.invalidate(); waveform.stop(); } setBusy(loading); results.refresh();
+mountSource(async loaded => { await waveform.load(loaded); source = loaded; results.invalidate(); await loadSpectrogram(waveform, loaded); }, loading => {
+  results.loading = loading; if (loading) { results.invalidate(); waveform.stop(); } setBusy(loading); results.refresh(); if (!loading) results.schedulePreview();
 });
 document.querySelector('#selection-controls').addEventListener('input', () => results.invalidate());
 

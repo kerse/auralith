@@ -65,6 +65,28 @@ Object.assign(translations.ru, {
   'error.sampleRate': 'Поддерживается частота дискретизации от 8000 до 192000 Гц.', 'error.waveform': 'Не удалось построить форму волны.', 'error.spectrogram': 'Не удалось рассчитать спектрограмму. Форма волны остаётся доступной.', 'error.workerPreview': 'Ошибка фоновой обработки. Возможно, недостаточно памяти. Попробуйте меньший фрагмент.', 'error.workerExport': 'Ошибка фоновой обработки экспорта. Возможно, недостаточно памяти.', 'error.sourceInvalid': 'Нужен непустой моно- или стереоисточник.', 'error.pitch': 'Высота тона должна быть от −24 до +24 полутонов.', 'wave.mono': 'МОНО'
 });
 
+Object.assign(translations.ru, {
+  'wave.sourcePlay': '▶ 1×', 'wave.sourcePause': 'Ⅱ 1×', 'wave.help': 'Подсказка по управлению', 'wave.helpTitle': 'Управление графиками', 'wave.helpClose': 'Закрыть',
+  'wave.middleDrag': 'средняя кнопка + перетаскивание', 'wave.dragPlayhead': 'перетащить синюю линию',
+  'wave.help.zoom': 'Масштаб вокруг курсора', 'wave.help.scroll': 'Прокрутка по времени', 'wave.help.fastScroll': 'Быстрая прокрутка', 'wave.help.pan': 'Перемещение вида', 'wave.help.fit': 'Показать весь файл', 'wave.help.fitSelection': 'Вписать фрагмент', 'wave.help.play': 'Пуск / пауза последнего режима', 'wave.help.seek': 'Перемотка',
+  'result.playSlow': '▶ {{value}}×', 'result.pauseSlow': 'Ⅱ {{value}}×', 'result.preparing': 'Подготовка…', 'result.readyIn': '{{percent}}% · примерно {{seconds}} с',
+  'result.note.changed': 'Параметры изменены. Предпросмотр обновляется автоматически.', 'result.note.cancelled': 'Автоматический предпросмотр отменён. Измените параметр, чтобы запустить его снова.'
+});
+Object.assign(translations.en, {
+  'wave.sourcePlay': '▶ 1×', 'wave.sourcePause': 'Ⅱ 1×', 'wave.help': 'Navigation help', 'wave.helpTitle': 'Graph controls', 'wave.helpClose': 'Close',
+  'wave.middleDrag': 'middle button + drag', 'wave.dragPlayhead': 'drag the blue line',
+  'wave.help.zoom': 'Zoom around pointer', 'wave.help.scroll': 'Scroll through time', 'wave.help.fastScroll': 'Fast scroll', 'wave.help.pan': 'Pan view', 'wave.help.fit': 'Fit entire file', 'wave.help.fitSelection': 'Fit fragment', 'wave.help.play': 'Play / pause last mode', 'wave.help.seek': 'Seek',
+  'result.playSlow': '▶ {{value}}×', 'result.pauseSlow': 'Ⅱ {{value}}×', 'result.preparing': 'Preparing…', 'result.readyIn': '{{percent}}% · about {{seconds}} s',
+  'result.note.changed': 'Parameters changed. Preview is updating automatically.', 'result.note.cancelled': 'Automatic preview cancelled. Change a parameter to start it again.'
+});
+Object.assign(translations.sr, {
+  'wave.sourcePlay': '▶ 1×', 'wave.sourcePause': 'Ⅱ 1×', 'wave.help': 'Pomoć za upravljanje', 'wave.helpTitle': 'Kontrole grafikona', 'wave.helpClose': 'Zatvori',
+  'wave.middleDrag': 'srednji taster + prevlačenje', 'wave.dragPlayhead': 'prevucite plavu liniju',
+  'wave.help.zoom': 'Uvećanje oko pokazivača', 'wave.help.scroll': 'Pomeranje kroz vreme', 'wave.help.fastScroll': 'Brzo pomeranje', 'wave.help.pan': 'Pomeranje prikaza', 'wave.help.fit': 'Prikaži ceo fajl', 'wave.help.fitSelection': 'Uklopi fragment', 'wave.help.play': 'Pusti / pauziraj poslednji režim', 'wave.help.seek': 'Premotavanje',
+  'result.playSlow': '▶ {{value}}×', 'result.pauseSlow': 'Ⅱ {{value}}×', 'result.preparing': 'Priprema…', 'result.readyIn': '{{percent}}% · približno {{seconds}} s',
+  'result.note.changed': 'Parametri su promenjeni. Pregled se automatski osvežava.', 'result.note.cancelled': 'Automatski pregled je otkazan. Promenite parametar da biste ga ponovo pokrenuli.'
+});
+
 let locale = 'en';
 const languageOrder = ['en', 'sr', 'ru'];
 

@@ -15,13 +15,14 @@ export async function loadSpectrogram(waveform, source) {
     bitmap.getContext('2d').putImageData(new ImageData(data.pixels, data.width, data.height), 0, 0);
     const render = () => {
       slot.innerHTML = `<div class="view-toolbar"><span>${t('spectrogram.title')}</span><span class="spectral-legend">−90 dB <i></i> 0 dB</span></div><canvas id="spectrogram" aria-label="${t('spectrogram.aria')}"></canvas><p class="hint">${t('spectrogram.hint', { width: data.width })}${data.width === 2048 ? t('spectrogram.overview') : ''}</p>`;
-      const canvas = document.querySelector('#spectrogram'); waveform.bindPointer(canvas);
+      const canvas = document.querySelector('#spectrogram'); waveform.bindPointer(canvas); waveform.bindNavigation(canvas);
       waveform.drawSpectrogram = () => {
       const width = canvas.clientWidth, height = 160, dpr = devicePixelRatio || 1;
       canvas.width = Math.round(width * dpr); canvas.height = height * dpr; canvas.style.height = `${height}px`;
       const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
       ctx.drawImage(bitmap, waveform.offset / source.duration * data.width, 0, waveform.visibleDuration / source.duration * data.width, data.height, 0, 0, width, height);
       waveform.drawSelection(ctx, width, height);
+      waveform.drawPlayhead(ctx, width, height);
       ctx.font = '12px Consolas';
       for (const frequency of [30, 100, 1000, 10000]) {
         if (frequency >= source.sampleRate / 2) continue;

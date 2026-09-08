@@ -44,6 +44,27 @@ input, select { color: var(--ink); background: #fffdf6; border: 1px solid var(--
 .view-toolbar label { display: flex; gap: 8px; align-items: center; }
 input[type="range"] { accent-color: var(--green); padding: 0; }
 canvas { display: block; width: 100%; border: 1px solid var(--line); touch-action: none; cursor: crosshair; }
+.transport { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 16px; }
+.transport-buttons, #preview-transport-slot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.transport-buttons { justify-content: flex-start; }
+#preview-transport-slot { font: 13px Consolas, monospace; }
+.loop-control { display: inline-flex; align-items: center; gap: 7px; margin-left: 4px; font-size: 14px; white-space: nowrap; }
+.loop-control input { width: 18px; height: 18px; accent-color: var(--green); }
+#preview-render-progress { width: min(420px, 100%); margin: 10px 0 0; font: 12px Consolas, monospace; color: var(--muted); }
+#preview-render-progress progress { margin: 0 0 5px; }
+.preview-progress-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.text-button { color: var(--green); background: transparent; border: 0; padding: 2px 0; font-size: 12px; text-decoration: underline; }
+.icon-button { min-width: 38px; padding: 7px 11px; font-weight: 700; }
+.help-dialog { width: min(520px, calc(100vw - 32px)); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 20px; box-shadow: 0 16px 50px #17211d42; }
+.help-dialog::backdrop { background: #17211d66; }
+.help-dialog form { margin: 0; }
+.dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.dialog-heading h3 { margin: 0; }
+.help-dialog dl { margin: 16px 0; }
+.help-dialog dl > div { display: flex; justify-content: space-between; gap: 20px; padding: 9px 0; border-bottom: 1px solid #b9baa966; }
+.help-dialog dt { font-size: 14px; }
+.help-dialog dd { margin: 0; text-align: right; }
+kbd { font: 12px Consolas, monospace; color: var(--ink); background: #ebeede; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 3px; padding: 3px 6px; }
 .hint { font-size: 13px; line-height: 1.5; color: var(--muted); }
 fieldset { border: 1px solid var(--line); padding: 8px 12px 12px; border-radius: 3px; margin: 0; }
 fieldset label { font-size: 13px; white-space: nowrap; }

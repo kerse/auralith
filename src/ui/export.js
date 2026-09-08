@@ -24,7 +24,7 @@ export class ExportControls {
       const header = wavHeader(frames, source.channels.length, source.sampleRate), size = 44 + frames * source.channels.length * 2;
       const name = exportName(source.name);
       if (!window.showSaveFilePicker && size > BLOB_LIMIT) throw new Error(t('error.exportLimit'));
-      r.stop(); r.stopSource(); r.lock(true);
+      r.cancelPreview(); r.stop(); r.waveform.stop(); r.lock(true);
       r.cancelOverride = () => { cancelled = true; worker?.terminate(); rejectJob?.(abortError()); };
       document.querySelector('#progress').value = 0; document.querySelector('#progress-label').textContent = t('export.choose');
       const parts = [];
@@ -71,6 +71,7 @@ export class ExportControls {
       worker?.terminate(); rejectJob = null;
       if (writer && !completed) { try { await writer.abort(); } catch {} }
       r.cancelOverride = null; r.cancelButton.disabled = false; r.lock(false);
+      r.schedulePreview();
     }
   }
 }
