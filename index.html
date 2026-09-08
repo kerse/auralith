@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eee8d8">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <title>Auralith — микроскоп времени</title>
+</head>
+<body>
+  <main>
+    <header class="masthead"><div><p class="eyebrow">Лаборатория звука / 01</p><h1>AURALITH<span aria-hidden="true">◎</span></h1></div><p class="local"><span class="lamp"></span> Аудио остаётся на устройстве</p></header>
+    <section class="panel" aria-labelledby="source-title">
+      <div class="section-heading"><h2 id="source-title"><span>01</span> Источник</h2><span class="badge">WAV · MP3 · OGG · M4A</span></div>
+      <div id="source-empty" class="empty"><div class="empty-scale" aria-hidden="true"></div><p>Каждый звук — целый мир.</p><p class="muted">Выберите запись, чтобы увидеть её и выделить фрагмент.</p></div>
+      <div id="source-controls"></div>
+      <div id="visualizations"></div>
+      <div id="selection-controls"></div>
+    </section>
+    <div class="lower-grid">
+      <section class="panel" aria-labelledby="process-title"><div class="section-heading"><h2 id="process-title"><span>02</span> Трансформация</h2></div><div id="processing-controls"><p class="muted">Растяжение времени · Высота тона · Reverse</p></div></section>
+      <section class="panel" aria-labelledby="result-title"><div class="section-heading"><h2 id="result-title"><span>03</span> Прослушивание и экспорт</h2></div><div id="result-controls"><p class="muted">Выберите звук, чтобы начать исследование.</p></div></section>
+    </div>
+    <footer><span>МИКРОСКОП ВРЕМЕНИ</span><p id="status" role="status" aria-live="polite">Запуск…</p><span>LOCAL / WAV</span></footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

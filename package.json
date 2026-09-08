@@ -1,0 +1,19 @@
+{
+  "name": "auralith",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test",
+    "test:fixtures": "node scripts/prepare-fixtures.mjs",
+    "test:browser": "node scripts/release-check.mjs",
+    "test:hour": "node scripts/long-export-check.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

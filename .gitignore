@@ -1,0 +1,13 @@
+node_modules/
+dist/
+tmp/
+test-results/
+docs/
+prototype.html
+*.log
+*.wav
+*.mp3
+*.ogg
+*.m4a
+.DS_Store
+Thumbs.db
