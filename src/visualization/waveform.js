@@ -1,5 +1,6 @@
 import { setStatus } from '../ui/status.js';
 import { t } from '../ui/i18n.js';
+import { pingPongChannels, reverseChannels } from '../audio/playback.js';
 
 export class Waveform {
   constructor(onSelection = () => {}) {
@@ -8,7 +9,7 @@ export class Waveform {
     document.querySelector('#visualizations').innerHTML = `<div id="wave-panel" hidden>
       <div class="view-toolbar"><span id="wave-form-label"></span><label><span id="zoom-label"></span> <input id="zoom" type="range" min="1" max="128" step="any" value="1"></label><label class="scroll-label"><span id="scroll-label"></span> <input id="scroll" type="range" min="0" max="1" step=".001" value="0" disabled></label><button id="navigation-help" class="icon-button secondary" type="button" aria-haspopup="dialog">?</button></div>
       <canvas id="waveform" height="200" tabindex="0"></canvas><div id="spectrogram-slot"></div>
-      <div class="transport"><div class="transport-buttons"><button id="source-play" type="button"></button><span id="preview-transport-slot"></span><label class="loop-control"><input id="result-loop" type="checkbox" checked> <span id="loop-label"></span></label></div><div id="preview-render-progress" hidden><progress id="preview-progress" max="1" value="0"></progress><div class="preview-progress-meta"><span id="preview-progress-label" role="status"></span><button id="cancel-preview" class="text-button" type="button"></button></div></div></div>
+      <div class="transport"><div class="transport-buttons"><button id="source-play" type="button"></button><span id="preview-transport-slot"></span><label class="loop-control"><input id="result-loop" type="checkbox" checked> <span id="loop-label"></span></label><label class="loop-control"><input id="reverse-loop" type="checkbox"> <span id="reverse-loop-label"></span></label><label class="loop-control"><input id="source-reverse" type="checkbox"> <span id="source-reverse-label"></span></label></div><div id="preview-render-progress" hidden><progress id="preview-progress" max="1" value="0"></progress><div class="preview-progress-meta"><span id="preview-progress-label" role="status"></span><button id="cancel-preview" class="text-button" type="button"></button></div></div></div>
       <p id="wave-hint" class="hint"></p>
       <dialog id="navigation-dialog" class="help-dialog"><form method="dialog"><div class="dialog-heading"><h3 id="navigation-title"></h3><button id="navigation-close-icon" class="icon-button secondary" value="close">×</button></div><dl id="navigation-shortcuts"></dl><button id="navigation-close" value="close"></button></form></dialog>
     </div>`;
@@ -20,7 +21,15 @@ export class Waveform {
       input.addEventListener('change', () => this.readFields());
     }
     document.querySelector('#source-play').onclick = () => this.toggleSource().catch(e => setStatus(e.message, true));
-    document.querySelector('#result-loop').addEventListener('change', () => { if (this.node) this.startSourceAt(this.playhead); });
+    document.querySelector('#result-loop').addEventListener('change', e => {
+      if (!e.target.checked) document.querySelector('#reverse-loop').checked = false;
+      if (this.node) this.startSourceAt(this.playhead);
+    });
+    document.querySelector('#reverse-loop').addEventListener('change', e => {
+      if (e.target.checked) document.querySelector('#result-loop').checked = true;
+      if (this.node) this.startSourceAt(this.playhead);
+    });
+    document.querySelector('#source-reverse').addEventListener('change', () => { if (this.node) this.startSourceAt(this.playhead); });
     const dialog = document.querySelector('#navigation-dialog');
     document.querySelector('#navigation-help').onclick = () => dialog.showModal();
     dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
@@ -29,7 +38,7 @@ export class Waveform {
       document.querySelector('#wave-hint').textContent = t('wave.hint'); this.canvas.setAttribute('aria-label', t('wave.aria'));
       document.querySelector('[data-bound="start"]').textContent = t('wave.start'); document.querySelector('[data-bound="end"]').textContent = t('wave.end');
       for (const unit of ['min', 'sec', 'ms']) document.querySelector(`[data-unit="${unit}"]`).textContent = t(`wave.${unit}`);
-      document.querySelector('#loop-label').textContent = t('result.loop'); document.querySelector('#navigation-help').setAttribute('aria-label', t('wave.help'));
+      document.querySelector('#loop-label').textContent = t('result.loop'); document.querySelector('#reverse-loop-label').textContent = t('result.reverseLoop'); document.querySelector('#source-reverse-label').textContent = t('wave.reverseSource'); document.querySelector('#navigation-help').setAttribute('aria-label', t('wave.help'));
       document.querySelector('#navigation-title').textContent = t('wave.helpTitle'); document.querySelector('#navigation-close').textContent = t('wave.helpClose'); document.querySelector('#navigation-close-icon').setAttribute('aria-label', t('wave.helpClose'));
       document.querySelector('#navigation-shortcuts').innerHTML = [['zoom', 'Ctrl + wheel'], ['scroll', 'wheel'], ['fastScroll', 'Shift + wheel'], ['pan', t('wave.middleDrag')], ['fit', 'F'], ['fitSelection', 'Shift + F'], ['play', 'Space'], ['seek', t('wave.dragPlayhead')]].map(([key, value]) => `<div><dt>${t(`wave.help.${key}`)}</dt><dd><kbd>${value}</kbd></dd></div>`).join('');
       this.updateSourceLabel(); if (this.source) this.updateFields(); this.draw();
@@ -50,7 +59,7 @@ export class Waveform {
       const worker = this.worker = new Worker(new URL('./analysis-worker.js', import.meta.url), { type: 'module' });
       worker.onmessage = ({ data }) => { worker.terminate(); resolve(data.peaks); }; worker.onerror = () => { worker.terminate(); reject(new Error(t('error.waveform'))); }; worker.postMessage({ channels: source.channels });
     });
-    this.source = source; this.playbackBuffer = null; this.peaks = peaks; this.start = 0; this.end = source.duration; this.playhead = 0; this.zoom = 1; this.offset = 0;
+    this.source = source; this.peaks = peaks; this.start = 0; this.end = source.duration; this.playhead = 0; this.zoom = 1; this.offset = 0;
     document.querySelector('#wave-panel').hidden = false; document.querySelector('#selection-panel').hidden = false; document.querySelector('#zoom').value = 1; document.querySelector('#selection-error').hidden = true; this.updateScroll(); this.changed();
   }
   setZoom(nextZoom, anchorTime) {
@@ -127,17 +136,34 @@ export class Waveform {
     if (this.node) { this.stopSource(); return; }
     if (!document.querySelector('#selection-error').hidden) throw new Error(t('error.selectionPlay'));
     this.previewTransport?.stop(); this.lastMode = 'source'; this.playbackMode = 'source'; this.context ||= new AudioContext(); await this.context.resume();
-    if (!this.playbackBuffer) { this.playbackBuffer = this.context.createBuffer(this.source.channels.length, this.source.channels[0].length, this.source.sampleRate); this.source.channels.forEach((channel, index) => this.playbackBuffer.copyToChannel(channel, index)); }
-    this.startSourceAt(this.playhead >= this.start && this.playhead < this.end ? this.playhead : this.start);
+    const reverse = document.querySelector('#source-reverse').checked && !document.querySelector('#reverse-loop').checked;
+    const withinSelection = this.playhead > this.start && this.playhead < this.end;
+    this.startSourceAt(withinSelection ? this.playhead : reverse ? this.end : this.start);
+  }
+  makeSourcePlaybackBuffer() {
+    const first = Math.floor(this.start * this.source.sampleRate), last = Math.min(this.source.channels[0].length, Math.round(this.end * this.source.sampleRate));
+    const reverseLoop = document.querySelector('#reverse-loop').checked;
+    const reverse = document.querySelector('#source-reverse').checked && !reverseLoop;
+    let channels = this.source.channels.map(channel => channel.slice(first, last));
+    if (reverse) channels = reverseChannels(channels);
+    if (reverseLoop) channels = pingPongChannels(channels);
+    const buffer = this.context.createBuffer(channels.length, channels[0].length, this.source.sampleRate);
+    channels.forEach((channel, index) => buffer.copyToChannel(channel, index));
+    return { buffer, reverse, reverseLoop };
   }
   startSourceAt(position) {
-    if (!this.context || !this.playbackBuffer) return;
+    if (!this.context || !this.source) return;
     if (this.node) { this.node.onended = null; this.node.stop(); this.node.disconnect(); }
-    const node = this.node = this.context.createBufferSource(); node.buffer = this.playbackBuffer; node.connect(this.context.destination); node.loop = document.querySelector('#result-loop').checked; node.loopStart = this.start; node.loopEnd = this.end;
-    node.onended = () => { if (this.node === node) { this.node = null; cancelAnimationFrame(this.playheadFrame); this.playhead = this.end; this.updateSourceLabel(); this.draw(); } };
-    this.sourceOrigin = position; this.sourceStartedAt = this.context.currentTime; node.start(0, position); if (!node.loop) node.stop(this.context.currentTime + this.end - position); this.updateSourceLabel(); this.animateSourcePlayhead();
+    const { buffer, reverse, reverseLoop } = this.makeSourcePlaybackBuffer();
+    const node = this.node = this.context.createBufferSource(); node.buffer = buffer; node.connect(this.context.destination);
+    const loop = document.querySelector('#result-loop').checked || reverseLoop;
+    node.loop = loop; node.loopStart = 0; node.loopEnd = buffer.duration;
+    const offset = Math.max(0, Math.min(Math.max(0, buffer.duration - 1 / this.source.sampleRate), reverse ? this.end - position : position - this.start));
+    node.onended = () => { if (this.node === node) { this.node = null; cancelAnimationFrame(this.playheadFrame); this.playhead = reverse ? this.start : this.end; this.updateSourceLabel(); this.draw(); } };
+    this.sourceOrigin = position; this.sourceOffset = offset; this.sourceStartedAt = this.context.currentTime; this.sourceReversePlayback = reverse; this.sourceReverseLoop = reverseLoop; this.sourcePlaybackBuffer = buffer;
+    node.start(0, offset); if (!loop) node.stop(this.context.currentTime + buffer.duration - offset); this.updateSourceLabel(); this.animateSourcePlayhead();
   }
-  animateSourcePlayhead() { cancelAnimationFrame(this.playheadFrame); const tick = () => { if (!this.node) return; const duration = this.end - this.start, elapsed = this.context.currentTime - this.sourceStartedAt; let value = this.sourceOrigin + elapsed; if (this.node.loop) value = this.start + ((value - this.start) % duration + duration) % duration; this.setPlayhead(Math.min(this.end, value), false, true); this.playheadFrame = requestAnimationFrame(tick); }; this.playheadFrame = requestAnimationFrame(tick); }
+  animateSourcePlayhead() { cancelAnimationFrame(this.playheadFrame); const tick = () => { if (!this.node) return; const span = this.end - this.start, elapsed = this.context.currentTime - this.sourceStartedAt; let offset = this.sourceOffset + elapsed; if (this.node.loop) offset = offset % this.sourcePlaybackBuffer.duration; let value; if (this.sourceReverseLoop) { const cycle = this.sourcePlaybackBuffer.duration, forward = Math.min(span, cycle / 2); value = offset <= forward ? this.start + offset : this.end - (offset - forward); } else value = this.sourceReversePlayback ? this.end - offset : this.start + offset; this.setPlayhead(Math.max(this.start, Math.min(this.end, value)), false, true); this.playheadFrame = requestAnimationFrame(tick); }; this.playheadFrame = requestAnimationFrame(tick); }
   updateSourceLabel() { const button = document.querySelector('#source-play'); if (button) button.textContent = this.node ? t('wave.sourcePause') : t('wave.sourcePlay'); }
   stopSource(reset = false) { if (this.node) { this.node.onended = null; this.node.stop(); this.node.disconnect(); this.node = null; } cancelAnimationFrame(this.playheadFrame); if (reset && this.source) this.playhead = this.start; this.updateSourceLabel(); this.draw(); }
   stop() { this.stopSource(true); this.previewTransport?.stop(true); this.playbackMode = null; }

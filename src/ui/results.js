@@ -1,5 +1,6 @@
 import { selectAudio } from '../audio/engine.js';
 import { wavHeader, pcm16 } from '../audio/wav.js';
+import { pingPongChannels, pingPongTime } from '../audio/playback.js';
 import { setStatus, setStatusKey } from './status.js';
 import { t, translateError } from './i18n.js';
 const time = value => `${Math.floor(value / 60).toString().padStart(2, '0')}:${(value % 60).toFixed(1).padStart(4, '0')}`;
@@ -16,7 +17,7 @@ export class ResultControls {
     this.refreshLanguage();
     document.querySelector('#result-play').onclick = () => this.togglePlayback();
     document.querySelector('#cancel-preview').onclick = () => this.cancelPreviewByUser();
-    document.querySelector('#result-loop').addEventListener('change', e => { this.audio.loop = e.target.checked; });
+    for (const id of ['result-loop', 'reverse-loop']) document.querySelector(`#${id}`).addEventListener('change', () => this.syncLoopMode());
     waveform.attachPreviewTransport({
       stop: () => this.stop(),
       toggle: () => this.togglePlayback(),
@@ -46,9 +47,26 @@ export class ResultControls {
     if (reset && this.audio.src) this.audio.currentTime = 0;
     cancelAnimationFrame(this.playheadFrame);
   }
+  reverseLoopEnabled() { return document.querySelector('#reverse-loop').checked; }
+  loopEnabled() { return document.querySelector('#result-loop').checked || this.reverseLoopEnabled(); }
+  syncLoopMode() {
+    this.audio.loop = this.loopEnabled();
+    if (this.previewData && this.previewReverseLoop !== this.reverseLoopEnabled()) this.setPreviewAudio(this.reverseLoopEnabled());
+  }
+  setPreviewAudio(reverseLoop = this.reverseLoopEnabled()) {
+    const wasPlaying = !this.audio.paused;
+    this.stop(); this.audio.removeAttribute('src'); this.audio.load();
+    if (this.url) URL.revokeObjectURL(this.url);
+    const channels = reverseLoop ? pingPongChannels(this.previewData.channels) : this.previewData.channels;
+    const wav = new Blob([wavHeader(channels[0].length, channels.length, this.previewData.sampleRate), pcm16(channels)], { type: 'audio/wav' });
+    this.url = URL.createObjectURL(wav); this.previewReverseLoop = reverseLoop; this.audio.src = this.url; this.audio.loop = this.loopEnabled(); this.audio.load();
+    if (wasPlaying) this.audio.play().catch(() => {});
+  }
   sourceTimeAt(resultTime) {
     if (!this.previewOptions) return this.waveform.start;
-    const p = Math.max(0, Math.min(1, resultTime / this.previewOptions.duration));
+    const previewDuration = this.previewData ? this.previewData.channels[0].length / this.previewData.sampleRate : this.previewOptions.duration;
+    const baseTime = this.reverseLoopEnabled() ? pingPongTime(resultTime, previewDuration) : resultTime;
+    const p = Math.max(0, Math.min(1, baseTime / this.previewOptions.duration));
     return this.previewOptions.reverse ? this.previewOptions.end - p * (this.previewOptions.end - this.previewOptions.start) : this.previewOptions.start + p * (this.previewOptions.end - this.previewOptions.start);
   }
   seekFromSourceTime(value) {
@@ -69,7 +87,7 @@ export class ResultControls {
   invalidate() {
     clearTimeout(this.previewTimer); this.previewGeneration = (this.previewGeneration || 0) + 1;
     this.cancelPreview();
-    this.stop(); this.audio.removeAttribute('src'); this.audio.load();
+    this.stop(); this.audio.removeAttribute('src'); this.audio.load(); this.previewData = null; this.previewReverseLoop = null;
     if (this.url) { URL.revokeObjectURL(this.url); this.url = null; }
     document.querySelector('#result-play').disabled = true;
     this.previewNoteKey = 'result.note.changed';
@@ -133,9 +151,7 @@ export class ResultControls {
         worker.postMessage({ channels, sampleRate: source.sampleRate, options }, channels.map(c => c.buffer));
       });
       if (generation !== this.previewGeneration) return;
-      const wav = new Blob([wavHeader(data.channels[0].length, data.channels.length, data.sampleRate), pcm16(data.channels)], { type: 'audio/wav' });
-      this.url = URL.createObjectURL(wav); this.audio.src = this.url;
-      this.previewOptions = options;
+      this.previewData = data; this.previewOptions = options; this.setPreviewAudio();
       document.querySelector('#result-play').disabled = false; this.updatePlayLabel();
       this.previewNoteKey = options.duration > 20 ? 'result.note.previewLong' : 'result.note.previewShort';
       document.querySelector('#preview-note').textContent = t(this.previewNoteKey);

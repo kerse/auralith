@@ -9,6 +9,19 @@ for (const channel of ['chrome', 'msedge']) {
     assert.equal(await page.locator('#preview').count(), 0);
     await page.waitForFunction(() => !document.querySelector('#result-play').disabled); await page.waitForFunction(() => Number.isFinite(document.querySelector('#result-audio').duration) && document.querySelector('#result-audio').duration > 0);
     assert.equal(await page.locator('#result-audio').evaluate(a => a.duration), 10);
+    const forwardPreview = await page.locator('#result-audio').evaluate(async a => {
+      const ctx = new AudioContext(), buffer = await ctx.decodeAudioData(await (await fetch(a.src)).arrayBuffer()); await ctx.close(); return [...buffer.getChannelData(0)];
+    });
+    await page.locator('#reverse-loop').check();
+    assert.equal(await page.locator('#result-loop').isChecked(), true);
+    await page.waitForFunction(() => Math.abs(document.querySelector('#result-audio').duration - 20) < .01);
+    const reverseLoopPreview = await page.locator('#result-audio').evaluate(async a => {
+      const ctx = new AudioContext(), buffer = await ctx.decodeAudioData(await (await fetch(a.src)).arrayBuffer()); await ctx.close(); return [...buffer.getChannelData(0)];
+    });
+    assert.equal(reverseLoopPreview.length, forwardPreview.length * 2 - 2);
+    for (const index of [0, 100, forwardPreview.length - 1]) assert.ok(Math.abs(reverseLoopPreview[index] - forwardPreview[index]) < .0001);
+    for (const index of [0, 100, forwardPreview.length - 3]) assert.ok(Math.abs(reverseLoopPreview[forwardPreview.length + index] - forwardPreview[forwardPreview.length - 2 - index]) < .0001);
+    await page.locator('#reverse-loop').uncheck(); await page.waitForFunction(() => Math.abs(document.querySelector('#result-audio').duration - 10) < .01);
     const waveBefore = await page.locator('#waveform').evaluate(c => c.toDataURL()), spectrumBefore = await page.locator('#spectrogram').evaluate(c => c.toDataURL());
     await page.locator('#result-play').click(); await page.waitForTimeout(200); assert.ok(await page.locator('#result-audio').evaluate(a => !a.paused && a.currentTime > 0));
     assert.notEqual(await page.locator('#waveform').evaluate(c => c.toDataURL()), waveBefore); assert.notEqual(await page.locator('#spectrogram').evaluate(c => c.toDataURL()), spectrumBefore);
@@ -29,7 +42,7 @@ for (const channel of ['chrome', 'msedge']) {
     assert.equal(await page.locator('#result-audio').evaluate(a => a.duration), 20);
     assert.ok((await page.locator('#preview-note').textContent()).includes('first 20 seconds'));
     const energy = await page.locator('#result-audio').evaluate(async a => { const ctx = new AudioContext(); const b = await ctx.decodeAudioData(await (await fetch(a.src)).arrayBuffer()); const v = b.getChannelData(0).reduce((s, x) => s + x * x, 0); await ctx.close(); return v; });
-    assert.ok(energy > 0); assert.deepEqual(errors, []); console.log(channel, 'automatic preview, play/pause, loop and 20s limit passed');
+    assert.ok(energy > 0); assert.deepEqual(errors, []); console.log(channel, 'automatic preview, play/pause, loop, reverse loop and 20s limit passed');
     await page.locator('#audio-file').setInputFiles('tmp/fixtures/stereo.m4a'); await page.waitForFunction(() => !document.querySelector('#audio-file').disabled);
     await page.locator('#target-duration').fill('10');
     await page.waitForFunction(() => !document.querySelector('#result-play').disabled); await page.waitForFunction(() => Number.isFinite(document.querySelector('#result-audio').duration) && document.querySelector('#result-audio').duration > 0);

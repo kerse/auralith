@@ -22,7 +22,10 @@ for (const channel of ['chrome', 'msedge']) {
     const start = +await page.locator('#start-ms').inputValue(); assert.ok(start >= 295 && start <= 305);
     await page.locator('#start-sec').fill('10'); await page.locator('#start-sec').press('Tab'); assert.equal(await page.locator('#selection-error').isVisible(), true);
     await page.locator('#start-sec').fill('0'); await page.locator('#start-sec').press('Tab');
+    await page.waitForFunction(() => !document.querySelector('#result-play').disabled);
     await page.locator('#source-play').click(); await page.waitForTimeout(100); assert.ok((await page.locator('#source-play').textContent()).includes('Ⅱ')); await page.locator('#source-play').click();
+    await page.locator('#source-reverse').check(); await page.locator('#source-play').click(); await page.waitForTimeout(100); assert.ok((await page.locator('#source-play').textContent()).includes('Ⅱ')); await page.locator('#source-play').click(); await page.locator('#source-reverse').uncheck();
+    await page.locator('#result-loop').uncheck(); await page.locator('#reverse-loop').check(); assert.equal(await page.locator('#result-loop').isChecked(), true); await page.locator('#source-play').click(); await page.waitForTimeout(100); assert.ok((await page.locator('#source-play').textContent()).includes('Ⅱ')); await page.locator('#source-play').click(); await page.locator('#reverse-loop').uncheck();
     await page.locator('#start-ms').fill('500'); await page.locator('#start-ms').press('Tab');
     await page.locator('#end-ms').fill('505'); await page.locator('#end-ms').press('Tab');
     await page.mouse.move(box.x + box.width * .505, box.y + 60); await page.mouse.down(); await page.mouse.move(box.x + box.width * .7, box.y + 60, { steps: 4 }); await page.mouse.up();
@@ -39,6 +42,6 @@ for (const channel of ['chrome', 'msedge']) {
     await page.locator('#navigation-help').click(); assert.equal(await page.locator('#navigation-dialog').evaluate(d => d.open), true);
     const modalZoom = await page.locator('#zoom').inputValue(); await page.keyboard.press('f'); assert.equal(await page.locator('#zoom').inputValue(), modalZoom); await page.locator('#navigation-close').click();
     await page.locator('#language-toggle').click(); await page.locator('#language-toggle').click(); assert.equal(await page.locator('#navigation-close-icon').getAttribute('aria-label'), 'Закрыть');
-    await page.screenshot({ path: `test-results/selection-${channel}.png`, fullPage: true }); assert.deepEqual(errors, []); console.log(channel, 'selection, move, invalid fields, source play and zoom passed');
+    await page.screenshot({ path: `test-results/selection-${channel}.png`, fullPage: true }); assert.deepEqual(errors, []); console.log(channel, 'selection, move, source reverse, reverse loop and zoom passed');
   } finally { await browser.close(); }
 }

@@ -69,6 +69,7 @@ Object.assign(translations.ru, {
 
 Object.assign(translations.ru, {
   'wave.sourcePlay': '▶ 1×', 'wave.sourcePause': 'Ⅱ 1×', 'wave.help': 'Подсказка по управлению', 'wave.helpTitle': 'Управление графиками', 'wave.helpClose': 'Закрыть',
+  'wave.reverseSource': 'Обратить исходник', 'result.reverseLoop': 'Реверс-луп',
   'wave.middleDrag': 'средняя кнопка + перетаскивание', 'wave.dragPlayhead': 'перетащить синюю линию',
   'wave.help.zoom': 'Масштаб вокруг курсора', 'wave.help.scroll': 'Прокрутка по времени', 'wave.help.fastScroll': 'Быстрая прокрутка', 'wave.help.pan': 'Перемещение вида', 'wave.help.fit': 'Показать весь файл', 'wave.help.fitSelection': 'Вписать фрагмент', 'wave.help.play': 'Пуск / пауза последнего режима', 'wave.help.seek': 'Перемотка',
   'result.playSlow': '▶ {{value}}×', 'result.pauseSlow': 'Ⅱ {{value}}×', 'result.preparing': 'Подготовка…', 'result.readyIn': '{{percent}}% · примерно {{seconds}} с',
@@ -78,6 +79,7 @@ Object.assign(translations.en, {
   'record.start': 'Record with microphone', 'record.stop': '■ Finish', 'record.cancel': 'Cancel', 'record.title': 'Live signal', 'record.level': 'Level', 'record.voice': 'VOICE', 'record.silence': 'SILENCE', 'record.clipping': 'CLIPPING', 'record.visualizationAria': 'Live waveform and spectral distribution of the microphone signal', 'record.name': 'Recording',
   'status.recording': 'Recording from microphone…', 'status.recorded': 'Recording ready', 'status.recordingCancelled': 'Recording cancelled', 'status.recordingLimitSaved': 'Recording limit reached; the captured audio was saved', 'error.microphoneUnsupported': 'This browser does not support microphone recording.', 'error.microphonePermission': 'Microphone access is blocked. Allow it in browser settings and try again.', 'error.microphoneMissing': 'No microphone was found.', 'error.microphoneBusy': 'The microphone is being used by another application.', 'error.microphone': 'Could not start microphone recording.', 'error.recordingEmpty': 'The microphone did not provide audio data.',
   'wave.sourcePlay': '▶ 1×', 'wave.sourcePause': 'Ⅱ 1×', 'wave.help': 'Navigation help', 'wave.helpTitle': 'Graph controls', 'wave.helpClose': 'Close',
+  'wave.reverseSource': 'Reverse source', 'result.reverseLoop': 'Reverse loop',
   'wave.middleDrag': 'middle button + drag', 'wave.dragPlayhead': 'drag the blue line',
   'wave.help.zoom': 'Zoom around pointer', 'wave.help.scroll': 'Scroll through time', 'wave.help.fastScroll': 'Fast scroll', 'wave.help.pan': 'Pan view', 'wave.help.fit': 'Fit entire file', 'wave.help.fitSelection': 'Fit fragment', 'wave.help.play': 'Play / pause last mode', 'wave.help.seek': 'Seek',
   'result.playSlow': '▶ {{value}}×', 'result.pauseSlow': 'Ⅱ {{value}}×', 'result.preparing': 'Preparing…', 'result.readyIn': '{{percent}}% · about {{seconds}} s',
@@ -87,6 +89,7 @@ Object.assign(translations.sr, {
   'record.start': 'Snimi mikrofonom', 'record.stop': '■ Završi', 'record.cancel': 'Otkaži', 'record.title': 'Signal uživo', 'record.level': 'Nivo', 'record.voice': 'GLAS', 'record.silence': 'TIŠINA', 'record.clipping': 'PREOPTEREĆENJE', 'record.visualizationAria': 'Talasni oblik uživo i spektralna raspodela signala mikrofona', 'record.name': 'Snimak',
   'status.recording': 'Snimanje mikrofonom…', 'status.recorded': 'Snimak je spreman', 'status.recordingCancelled': 'Snimanje je otkazano', 'status.recordingLimitSaved': 'Dostignuto je ograničenje; snimljeni deo je sačuvan', 'error.microphoneUnsupported': 'Ovaj pregledač ne podržava snimanje mikrofonom.', 'error.microphonePermission': 'Pristup mikrofonu je blokiran. Dozvolite ga u podešavanjima pregledača i pokušajte ponovo.', 'error.microphoneMissing': 'Mikrofon nije pronađen.', 'error.microphoneBusy': 'Mikrofon koristi druga aplikacija.', 'error.microphone': 'Snimanje mikrofonom nije moglo da se pokrene.', 'error.recordingEmpty': 'Mikrofon nije poslao audio podatke.',
   'wave.sourcePlay': '▶ 1×', 'wave.sourcePause': 'Ⅱ 1×', 'wave.help': 'Pomoć za upravljanje', 'wave.helpTitle': 'Kontrole grafikona', 'wave.helpClose': 'Zatvori',
+  'wave.reverseSource': 'Obrni izvor', 'result.reverseLoop': 'Obrnuta petlja',
   'wave.middleDrag': 'srednji taster + prevlačenje', 'wave.dragPlayhead': 'prevucite plavu liniju',
   'wave.help.zoom': 'Uvećanje oko pokazivača', 'wave.help.scroll': 'Pomeranje kroz vreme', 'wave.help.fastScroll': 'Brzo pomeranje', 'wave.help.pan': 'Pomeranje prikaza', 'wave.help.fit': 'Prikaži ceo fajl', 'wave.help.fitSelection': 'Uklopi fragment', 'wave.help.play': 'Pusti / pauziraj poslednji režim', 'wave.help.seek': 'Premotavanje',
   'result.playSlow': '▶ {{value}}×', 'result.pauseSlow': 'Ⅱ {{value}}×', 'result.preparing': 'Priprema…', 'result.readyIn': '{{percent}}% · približno {{seconds}} s',
