@@ -14,6 +14,7 @@
     <nav class="mode-tabs" role="tablist" aria-label="Режим обработки">
       <button id="stretch-tab" class="mode-tab active" type="button" role="tab" aria-selected="true" aria-controls="stretch-source" data-i18n="tab.stretch">Замедлятор</button>
       <button id="speed-curve-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="speed-curve-mode">Speed Curve</button>
+      <button id="sound-paint-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="sound-paint-mode" data-i18n="tab.paint">Sound Paint</button>
     </nav>
     <section id="stretch-source" class="panel stretch-mode" aria-labelledby="source-title">
       <div class="section-heading"><h2 id="source-title"><span>01</span> <span data-i18n="section.source">Источник</span></h2><span class="badge">WAV · MP3 · OGG · M4A</span></div>
@@ -29,6 +30,10 @@
     <section id="speed-curve-mode" class="panel speed-mode" role="tabpanel" aria-labelledby="speed-curve-tab" hidden>
       <div class="section-heading"><div><h2><span>SC</span> Speed Curve</h2><p class="muted speed-intro" data-i18n="speed.intro">Нарисуйте изменение скорости по ходу трека. Высота тона останется неизменной.</p></div><span class="badge">0.1× — 4× · PITCH LOCK</span></div>
       <div id="speed-curve-app"></div>
+    </section>
+    <section id="sound-paint-mode" class="panel sound-paint-mode" role="tabpanel" aria-labelledby="sound-paint-tab" hidden>
+      <div class="section-heading"><div><h2><span>SP</span> Sound Paint</h2><p class="muted paint-intro" data-i18n="paint.intro">Рисуйте изменения на спектрограмме. Форма волны и громкость покажут результат.</p></div><span class="badge">SPECTRAL BRUSH · LOCAL</span></div>
+      <div id="sound-paint-app"></div>
     </section>
     <footer><p id="status" role="status" aria-live="polite"></p><span class="footer-meta"><span data-i18n="footer.copyright">© 2026 Кирилл Томилов</span></span></footer>
   </main>

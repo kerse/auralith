@@ -127,6 +127,28 @@ Object.assign(translations.sr, {
   'speed.changed': 'Kriva je promenjena. Pregled se automatski osvežava.', 'speed.preserveAttacks': 'Sačuvaj atake'
 });
 
+Object.assign(translations.ru, {
+  'tab.paint': 'Sound Paint', 'paint.intro': 'Рисуйте изменения на спектрограмме. Форма волны и громкость покажут результат.',
+  'paint.emptyTitle': 'Звук становится холстом.', 'paint.emptyDescription': 'Загрузите трек, затем рисуйте усиление или ослабление по времени и частоте.',
+  'paint.brush': 'Кисть', 'paint.strength': 'Сила', 'paint.add': '＋ Усилить', 'paint.subtract': '− Ослабить', 'paint.reset': 'Сбросить', 'paint.loudness': 'Громкость · RMS', 'paint.spectrum': 'Спектрограмма · логарифмическая шкала',
+  'paint.hint': 'Рисуйте по спектрограмме: зелёный — исходная энергия, жёлтый — усиление. Ctrl + колесо для масштаба, колесо — для прокрутки, двойной щелчок — показать весь файл.',
+  'paint.rendering': 'Применение спектрального штриха…', 'paint.waveAria': 'Форма волны обработанного звука с общей временной шкалой.', 'paint.loudnessAria': 'График RMS-громкости обработанного звука с общей временной шкалой.', 'paint.spectrumAria': 'Редактируемая логарифмическая спектрограмма. Рисуйте кистью для усиления или ослабления частот.'
+});
+Object.assign(translations.en, {
+  'tab.paint': 'Sound Paint', 'paint.intro': 'Paint changes on the spectrogram. Waveform and loudness show the result.',
+  'paint.emptyTitle': 'Turn sound into a canvas.', 'paint.emptyDescription': 'Load a track, then paint gain or attenuation over time and frequency.',
+  'paint.brush': 'Brush', 'paint.strength': 'Strength', 'paint.add': '＋ Boost', 'paint.subtract': '− Reduce', 'paint.reset': 'Reset', 'paint.loudness': 'Loudness · RMS', 'paint.spectrum': 'Spectrogram · logarithmic scale',
+  'paint.hint': 'Paint on the spectrogram: green is source energy, yellow is added gain. Ctrl + wheel zooms, wheel scrolls, double-click fits the file.',
+  'paint.rendering': 'Applying spectral stroke…', 'paint.waveAria': 'Processed sound waveform with a shared time axis.', 'paint.loudnessAria': 'Processed sound RMS loudness graph with a shared time axis.', 'paint.spectrumAria': 'Editable logarithmic spectrogram. Paint with a brush to boost or reduce frequencies.'
+});
+Object.assign(translations.sr, {
+  'tab.paint': 'Sound Paint', 'paint.intro': 'Crtajte izmene na spektrogramu. Talasni oblik i glasnoća pokazuju rezultat.',
+  'paint.emptyTitle': 'Pretvorite zvuk u platno.', 'paint.emptyDescription': 'Učitajte snimak, zatim crtajte pojačanje ili prigušenje kroz vreme i frekvenciju.',
+  'paint.brush': 'Četkica', 'paint.strength': 'Jačina', 'paint.add': '＋ Pojačaj', 'paint.subtract': '− Smanji', 'paint.reset': 'Resetuj', 'paint.loudness': 'Glasnoća · RMS', 'paint.spectrum': 'Spektrogram · logaritamska skala',
+  'paint.hint': 'Crtajte po spektrogramu: zelena je energija izvora, žuta je pojačanje. Ctrl + točkić uvećava, točkić pomera, dvostruki klik uklapa fajl.',
+  'paint.rendering': 'Primena spektralnog poteza…', 'paint.waveAria': 'Talasni oblik obrađenog zvuka sa zajedničkom vremenskom osom.', 'paint.loudnessAria': 'RMS grafikon glasnoće obrađenog zvuka sa zajedničkom vremenskom osom.', 'paint.spectrumAria': 'Izmenjivi logaritamski spektrogram. Crtajte četkicom da pojačate ili smanjite frekvencije.'
+});
+
 let locale = 'en';
 const languageOrder = ['en', 'sr', 'ru'];
 

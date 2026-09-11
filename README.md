@@ -10,6 +10,7 @@ A local, browser-based tool for turning short audio fragments into long spectral
 - waveform and spectrogram selection;
 - time stretch, independent pitch shift, and reverse;
 - editable Speed Curve with Bezier handles, pitch-locked preview, and WAV export;
+- Sound Paint: paint a logarithmic spectrogram with a pressure-sensitive spectral brush, then inspect the resulting waveform and RMS loudness;
 - draft preview and WAV export;
 - all processing runs in the browser — audio stays on the user's device and is never uploaded.
 
