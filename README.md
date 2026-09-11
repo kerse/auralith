@@ -9,6 +9,7 @@ A local, browser-based tool for turning short audio fragments into long spectral
 - WAV, MP3, OGG, and M4A input;
 - waveform and spectrogram selection;
 - time stretch, independent pitch shift, and reverse;
+- editable Speed Curve with Bezier handles, pitch-locked preview, and WAV export;
 - draft preview and WAV export;
 - all processing runs in the browser — audio stays on the user's device and is never uploaded.
 
