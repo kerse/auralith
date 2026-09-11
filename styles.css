@@ -130,10 +130,13 @@ legend { padding: 0 5px; color: var(--muted); font-size: 14px; }
 .paint-source-row, .paint-toolbar, .paint-transport, .paint-view-heading { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .paint-source-row { margin-bottom: 16px; }
 .paint-source-row p { flex: 1; min-width: 220px; overflow-wrap: anywhere; }
+.paint-new-canvas { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; white-space: nowrap; }
+.paint-new-canvas input { width: 58px; padding: 8px 5px; }
 .paint-toolbar { margin-bottom: 16px; }
-.paint-toolbar > label { display: inline-grid; grid-template-columns: auto minmax(110px, 180px) auto; align-items: center; gap: 8px; font-size: 13px; }
+.paint-toolbar > label { display: inline-grid; grid-template-columns: auto minmax(80px, 130px) auto; align-items: center; gap: 8px; font-size: 13px; }
 .paint-toolbar output { min-width: 48px; color: var(--muted); font: 12px Consolas, monospace; }
 .paint-mode { display: inline-flex; gap: 6px; }
+.paint-base { display: inline-flex; gap: 6px; }
 .paint-toolbar button { padding: 8px 12px; }
 .paint-toolbar button.active { background: var(--green); color: #fff; border-color: var(--green); }
 .paint-view-heading { justify-content: space-between; margin: 18px 0 8px; color: var(--muted); font: 12px Consolas, monospace; }
