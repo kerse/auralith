@@ -104,7 +104,7 @@ Object.assign(translations.ru, {
   'speed.hint': 'Щёлкните по свободному месту, чтобы добавить точку. Тяните точки и круглые ручки Безье; Delete удаляет выбранную внутреннюю точку.',
   'speed.current': 'Текущая скорость', 'speed.sourceDuration': 'Исходник', 'speed.resultDuration': 'Результат',
   'speed.curveAria': 'Редактор кривой скорости от 0,1 до 4 раз. Добавляйте и перемещайте точки мышью.', 'speed.waveAria': 'Форма волны с бегунком фактической позиции исходного трека.',
-  'speed.changed': 'Кривая изменена. Предпросмотр обновляется автоматически.'
+  'speed.changed': 'Кривая изменена. Предпросмотр обновляется автоматически.', 'speed.preserveAttacks': 'Сохранять атаки'
 });
 Object.assign(translations.en, {
   'tab.stretch': 'Slowdown', 'speed.intro': 'Draw how playback speed changes through the track. Pitch stays unchanged.',
@@ -114,7 +114,7 @@ Object.assign(translations.en, {
   'speed.hint': 'Click empty space to add a point. Drag points and round Bezier handles; Delete removes the selected inner point.',
   'speed.current': 'Current speed', 'speed.sourceDuration': 'Source', 'speed.resultDuration': 'Result',
   'speed.curveAria': 'Speed curve editor from 0.1 to 4 times. Add and move points with the pointer.', 'speed.waveAria': 'Waveform with the actual source-position playhead.',
-  'speed.changed': 'Curve changed. Preview is updating automatically.'
+  'speed.changed': 'Curve changed. Preview is updating automatically.', 'speed.preserveAttacks': 'Preserve attacks'
 });
 Object.assign(translations.sr, {
   'tab.stretch': 'Usporavanje', 'speed.intro': 'Nacrtajte kako se brzina menja kroz snimak. Visina tona ostaje ista.',
@@ -124,7 +124,7 @@ Object.assign(translations.sr, {
   'speed.hint': 'Kliknite na prazno mesto da dodate tačku. Prevlačite tačke i okrugle Bezier ručice; Delete briše izabranu unutrašnju tačku.',
   'speed.current': 'Trenutna brzina', 'speed.sourceDuration': 'Izvor', 'speed.resultDuration': 'Rezultat',
   'speed.curveAria': 'Uređivač krive brzine od 0,1 do 4 puta. Dodajte i pomerajte tačke pokazivačem.', 'speed.waveAria': 'Talasni oblik sa indikatorom stvarne pozicije u izvoru.',
-  'speed.changed': 'Kriva je promenjena. Pregled se automatski osvežava.'
+  'speed.changed': 'Kriva je promenjena. Pregled se automatski osvežava.', 'speed.preserveAttacks': 'Sačuvaj atake'
 });
 
 let locale = 'en';

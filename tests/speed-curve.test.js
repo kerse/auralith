@@ -74,6 +74,18 @@ test('smooth, zigzag and pulse curves render finite audio at the mapped duration
   }
 });
 
+test('transient preservation is optional and stable for an attacked signal', () => {
+  const source = tone(220, 1); source[Math.floor(sampleRate * .3)] = 1;
+  const render = preserveTransients => {
+    const output = new Float32Array(sampleRate * 2);
+    for (const block of renderSpeedCurveBlocks([source], sampleRate, { curve: linearCurve([.5, .5]), quality: 'preview', preserveTransients })) output.set(block.channels[0], block.position);
+    return output;
+  };
+  const preserved = render(true), softened = render(false);
+  assert.ok(preserved.every(Number.isFinite)); assert.ok(softened.every(Number.isFinite));
+  assert.notDeepEqual(preserved, softened);
+});
+
 test('result duration over one hour is rejected', () => {
   assert.throws(() => compileSpeedCurve(linearCurve([.1, .1]), 361));
 });

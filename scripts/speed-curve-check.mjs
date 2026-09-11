@@ -13,6 +13,8 @@ for (const channel of ['chrome', 'msedge']) {
     assert.equal(await page.locator('#speed-curve-mode').isVisible(), true); assert.equal(await page.locator('#stretch-source').isHidden(), true);
     await page.locator('#speed-audio-file').setInputFiles('tmp/fixtures/stereo.wav'); await page.waitForFunction(() => !document.querySelector('#speed-audio-file').disabled);
     await page.waitForFunction(() => !document.querySelector('#speed-play').disabled); await page.waitForFunction(() => Number.isFinite(document.querySelector('#speed-audio').duration));
+    assert.equal(await page.locator('#speed-preserve-attacks').isChecked(), true);
+    await page.locator('#speed-preserve-attacks').uncheck(); await page.waitForFunction(() => !document.querySelector('#speed-play').disabled); await page.locator('#speed-preserve-attacks').check(); await page.waitForFunction(() => !document.querySelector('#speed-play').disabled);
     assert.ok(Math.abs(await page.locator('#speed-audio').evaluate(audio => audio.duration) - 1) < .01);
     await page.locator('#speed-preset').selectOption('ramp-up'); await page.waitForFunction(() => !document.querySelector('#speed-play').disabled);
     const mappedDuration = await page.locator('#speed-result-duration').textContent(); assert.notEqual(mappedDuration, '00:01.0');

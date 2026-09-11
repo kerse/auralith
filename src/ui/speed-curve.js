@@ -34,6 +34,7 @@ export class SpeedCurveApp {
         <div class="speed-transport">
           <button id="speed-play" type="button" disabled></button>
           <label class="loop-control"><input id="speed-loop" type="checkbox"> <span id="speed-loop-label"></span></label>
+          <label class="loop-control"><input id="speed-preserve-attacks" type="checkbox" checked> <span id="speed-preserve-attacks-label"></span></label>
           <span id="speed-result-time">00:00.0 / 00:00.0</span>
           <button id="speed-export" class="secondary" type="button" disabled></button>
         </div>
@@ -54,6 +55,7 @@ export class SpeedCurveApp {
     this.root.querySelector('#speed-smooth').onclick = () => this.editor.shapeSelected('smooth'); this.root.querySelector('#speed-corner').onclick = () => this.editor.shapeSelected('corner');
     this.root.querySelector('#speed-delete').onclick = () => this.editor.deleteSelected(); this.root.querySelector('#speed-reset').onclick = () => { this.root.querySelector('#speed-preset').value = 'linear'; this.editor.reset(); };
     this.root.querySelector('#speed-play').onclick = () => this.togglePlayback(); this.root.querySelector('#speed-loop').onchange = event => { this.audio.loop = event.target.checked; };
+    this.root.querySelector('#speed-preserve-attacks').onchange = () => this.invalidatePreview();
     this.root.querySelector('#speed-cancel-preview').onclick = () => this.cancelPreview(true); this.root.querySelector('#speed-cancel-export').onclick = () => this.cancelExport();
     this.root.querySelector('#speed-export').onclick = () => this.exportWav();
     this.waveform.addEventListener('pointerdown', event => this.seekWaveform(event));
@@ -71,7 +73,7 @@ export class SpeedCurveApp {
       '#speed-delete': 'speed.delete', '#speed-reset': 'speed.reset', '#speed-editor-hint': 'speed.hint', '#speed-current-label': 'speed.current',
       '#speed-smooth': 'speed.smooth', '#speed-corner': 'speed.corner',
       '#speed-source-duration-label': 'speed.sourceDuration', '#speed-result-duration-label': 'speed.resultDuration', '#speed-wave-label': 'wave.form',
-      '#speed-loop-label': 'result.loop', '#speed-export': 'result.export', '#speed-cancel-preview': 'result.cancel', '#speed-cancel-export': 'result.cancel'
+      '#speed-loop-label': 'result.loop', '#speed-preserve-attacks-label': 'speed.preserveAttacks', '#speed-export': 'result.export', '#speed-cancel-preview': 'result.cancel', '#speed-cancel-export': 'result.cancel'
     };
     for (const [selector, key] of Object.entries(values)) this.root.querySelector(selector).textContent = t(key);
     this.root.querySelector('#speed-undo span').textContent = t('speed.undo'); this.root.querySelector('#speed-redo span').textContent = t('speed.redo');
@@ -143,6 +145,7 @@ export class SpeedCurveApp {
     clearTimeout(this.previewTimer); this.cancelPreview(false); this.stop(); this.clearAudio(); this.root.querySelector('#speed-play').disabled = true;
     this.root.querySelector('#speed-note').textContent = t('speed.changed'); this.schedulePreview();
   }
+  renderOptions() { return { curve: this.editor.value, preserveTransients: this.root.querySelector('#speed-preserve-attacks').checked }; }
   schedulePreview() { if (!this.source || !this.mapping || this.exporting) return; this.previewTimer = setTimeout(() => this.preview(), 350); }
   cancelPreview(byUser = false) {
     clearTimeout(this.previewTimer); this.previewWorker?.terminate(); this.previewReject?.(new DOMException('Preview superseded', 'AbortError')); this.previewWorker = null; this.previewReject = null; this.previewing = false; this.root.querySelector('#speed-preview-progress').hidden = true;
@@ -159,7 +162,7 @@ export class SpeedCurveApp {
         this.previewReject = reject;
         worker.onerror = () => reject(new Error(t('error.workerPreview')));
         worker.onmessage = ({ data }) => { if (data.type === 'error') reject(new Error(data.message)); else if (data.type === 'done') resolve(data); else { bar.value = data.progress; label.textContent = `${Math.round(data.progress * 100)}%`; } };
-        const channels = cloneChannels(this.source.channels); worker.postMessage({ channels, sampleRate: this.source.sampleRate, options: { curve: this.editor.value } }, channels.map(channel => channel.buffer));
+        const channels = cloneChannels(this.source.channels); worker.postMessage({ channels, sampleRate: this.source.sampleRate, options: this.renderOptions() }, channels.map(channel => channel.buffer));
       });
       if (this.previewWorker !== worker) return;
       this.clearAudio(); const wav = new Blob([wavHeader(data.channels[0].length, data.channels.length, data.sampleRate), pcm16(data.channels)], { type: 'audio/wav' });
@@ -200,7 +203,7 @@ export class SpeedCurveApp {
       await new Promise((resolve, reject) => {
         this.exportReject = reject; worker.onerror = () => reject(new Error(t('error.workerExport')));
         worker.onmessage = async ({ data }) => { try { if (data.type === 'error') reject(new Error(data.message)); else if (data.type === 'done') resolve(); else if (data.type === 'chunk') { await writer.write(data.bytes); bytesWritten += data.bytes.byteLength; worker.postMessage({ type: 'ack' }); } else { bar.value = data.progress; label.textContent = `${data.phase} · ${Math.round(data.progress * 100)}%`; } } catch (cause) { reject(cause); } };
-        const channels = cloneChannels(this.source.channels); worker.postMessage({ channels, sampleRate: this.source.sampleRate, options: { curve: this.editor.value } }, channels.map(channel => channel.buffer));
+        const channels = cloneChannels(this.source.channels); worker.postMessage({ channels, sampleRate: this.source.sampleRate, options: this.renderOptions() }, channels.map(channel => channel.buffer));
       });
       if (this.exportCancelled) throw new DOMException('Экспорт отменён', 'AbortError'); if (bytesWritten !== size) throw new Error(t('error.exportSize'));
       label.textContent = t('export.saving'); bar.value = 1; await writer.close(); completed = true;
